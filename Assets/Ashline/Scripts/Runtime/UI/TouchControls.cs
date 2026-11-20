@@ -19,10 +19,27 @@ namespace Ashline.UI
             idle = image.color;
         }
 
-        public void OnPointerDown(PointerEventData e) { pointers++; Refresh(); }
+        bool pressed;
+
+        public void OnPointerDown(PointerEventData e) { pointers++; pressed = true; Refresh(); }
         public void OnPointerUp(PointerEventData e) { pointers = Mathf.Max(0, pointers - 1); Refresh(); }
 
-        void OnDisable() { pointers = 0; Refresh(); }
+        /// <summary>True once per press, for buttons that act on tap as well as hold.</summary>
+        public bool Consume()
+        {
+            bool p = pressed;
+            pressed = false;
+            return p;
+        }
+
+        /// <summary>Sets the resting colour (the pressed highlight is derived from it).</summary>
+        public void Tint(Color c)
+        {
+            idle = c;
+            if (image != null) image.color = c;
+        }
+
+        void OnDisable() { pointers = 0; pressed = false; Refresh(); }
 
         void Refresh()
         {
@@ -122,7 +139,19 @@ namespace Ashline.UI
         public HoldButton sprint;
         public TapButton jump, action;
         public Text actionLabel;
+        /// <summary>Contextual interaction (loot, pick lock…): tap, or hold while <see cref="useFill"/> fills.</summary>
+        public HoldButton use;
+        public Text useLabel;
+        public Image useFill;
         RectTransform drivePanel, footPanel;
+
+        /// <summary>Safe-area root; modules add their own widgets here (see HUD layout in Gameplay/README.md).</summary>
+        public RectTransform Root { get; private set; }
+        /// <summary>Visible only on foot.</summary>
+        public RectTransform FootPanel => footPanel;
+        /// <summary>Visible only while driving.</summary>
+        public RectTransform DrivePanel => drivePanel;
+        public static Font Font => font;
 
         static Font font;
 
@@ -146,6 +175,7 @@ namespace Ashline.UI
             var tc = go.AddComponent<TouchControls>();
             var root = Panel("Safe", go.transform);
             go.AddComponent<SafeArea>().target = root;
+            tc.Root = root;
 
             // On-foot layer: look pad underneath everything, stick zone on the left.
             var foot = tc.footPanel = Panel("Foot", root);
@@ -176,6 +206,21 @@ namespace Ashline.UI
             tc.jump = Button(foot, "JUMP", new Vector2(1, 0), new Vector2(-100, 70), new Vector2(170, 170)).gameObject.AddComponent<TapButton>();
             Object.Destroy(tc.jump.GetComponent<HoldButton>());
 
+            tc.use = Button(foot, "USE", new Vector2(1, 0), new Vector2(-200, 290), new Vector2(210, 150));
+            tc.use.Tint(new Color(0.3f, 0.9f, 0.5f, 0.35f));
+            tc.useLabel = tc.use.GetComponentInChildren<Text>();
+            tc.useLabel.fontSize = 34;
+            var fill = Panel("Fill", tc.use.transform);
+            fill.SetAsFirstSibling();
+            tc.useFill = fill.gameObject.AddComponent<Image>();
+            tc.useFill.color = new Color(0.3f, 1f, 0.5f, 0.45f);
+            tc.useFill.sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, 4, 4), Vector2.one * 0.5f);
+            tc.useFill.type = Image.Type.Filled;
+            tc.useFill.fillMethod = Image.FillMethod.Horizontal;
+            tc.useFill.fillAmount = 0;
+            tc.useFill.raycastTarget = false;
+            tc.use.gameObject.SetActive(false);
+
             var drive = tc.drivePanel = Panel("Drive", root);
             tc.left = Button(drive, "<", new Vector2(0, 0), new Vector2(110, 70), new Vector2(190, 190));
             tc.right = Button(drive, ">", new Vector2(0, 0), new Vector2(330, 70), new Vector2(190, 190));
@@ -183,7 +228,7 @@ namespace Ashline.UI
             tc.brake = Button(drive, "BRK", new Vector2(1, 0), new Vector2(-310, 70), new Vector2(170, 170));
             tc.handbrake = Button(drive, "DRIFT", new Vector2(1, 0), new Vector2(-310, 270), new Vector2(170, 120));
             tc.nitro = Button(drive, "NOS", new Vector2(1, 0), new Vector2(-110, 360), new Vector2(170, 120));
-            tc.nitro.GetComponent<Image>().color = new Color(0.2f, 0.55f, 1f, 0.35f);
+            tc.nitro.Tint(new Color(0.2f, 0.55f, 1f, 0.35f));
 
             tc.speed = Label(drive, "0", new Vector2(0.5f, 0), new Vector2(0, 70), 96, new Vector2(400, 110));
             Label(drive, "KM/H", new Vector2(0.5f, 0), new Vector2(0, 40), 28, new Vector2(200, 40)).color = new Color(1, 1, 1, 0.6f);
@@ -223,6 +268,16 @@ namespace Ashline.UI
             bool on = !string.IsNullOrEmpty(caption);
             if (action.gameObject.activeSelf != on) action.gameObject.SetActive(on);
             if (on && actionLabel.text != caption) actionLabel.text = caption;
+        }
+
+        /// <summary>Shows the USE button with a caption and hold progress (0..1); null hides it.</summary>
+        public void SetUse(string caption, float progress)
+        {
+            bool on = !string.IsNullOrEmpty(caption);
+            if (use.gameObject.activeSelf != on) use.gameObject.SetActive(on);
+            if (!on) return;
+            if (useLabel.text != caption) useLabel.text = caption;
+            useFill.fillAmount = progress;
         }
 
         public void Show(float kmh, int gearIndex, float nitro01)

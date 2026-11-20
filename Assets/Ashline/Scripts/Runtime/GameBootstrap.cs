@@ -1,6 +1,7 @@
 using Ashline.Ambient;
 using Ashline.Characters;
 using Ashline.City;
+using Ashline.Gameplay;
 using Ashline.UI;
 using Ashline.Vehicles;
 using UnityEngine;
@@ -31,6 +32,10 @@ namespace Ashline
         public PlayerCharacter Player { get; private set; }
         public CarController Car { get; private set; }
         public bool Driving => Car != null;
+        public FootCamera FootCam => footCam;
+        public ChaseCamera ChaseCam => chase;
+        public TrafficSystem Traffic => traffic;
+        public PedestrianSystem Crowd => crowd;
 
         CarController ownCar;
         ChaseCamera chase;
@@ -81,6 +86,19 @@ namespace Ashline
 
             if (StartInCar || InputOverride.HasValue) Enter(ownCar);
             else Exit(true);
+
+            GameContext.Bootstrap = this;
+            GameContext.City = city;
+            GameContext.Player = Player;
+            GameContext.Status = Player.gameObject.AddComponent<PlayerStatus>();
+            GameContext.Camera = cam;
+            GameContext.Hud = hud;
+            GameContext.HumanModel = characterModel;
+            GameContext.IdleClip = idleClip;
+            GameContext.WalkClip = walkClip;
+            GameContext.RunClip = runClip;
+            gameObject.AddComponent<InteractionDriver>();
+            GameEvents.RaiseWorldReady();
         }
 
         void SetupEnvironment()
@@ -189,7 +207,7 @@ namespace Ashline
                 move.y = (kb.wKey.isPressed || kb.upArrowKey.isPressed ? 1f : 0f) - (kb.sKey.isPressed || kb.downArrowKey.isPressed ? 1f : 0f);
                 sprint = kb.leftShiftKey.isPressed;
                 jump = kb.spaceKey.wasPressedThisFrame;
-                look.x += ((kb.eKey.isPressed ? 1f : 0f) - (kb.qKey.isPressed ? 1f : 0f)) * 120f * Time.deltaTime;
+                look.x += ((kb.cKey.isPressed ? 1f : 0f) - (kb.zKey.isPressed ? 1f : 0f)) * 120f * Time.deltaTime;
             }
             var mouse = Mouse.current;
             if (mouse != null && mouse.rightButton.isPressed) look += mouse.delta.ReadValue() * 0.15f;

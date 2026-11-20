@@ -18,6 +18,10 @@ namespace Ashline.Characters
         [System.NonSerialized] public bool sprint;
         [System.NonSerialized] public bool jump;
         [System.NonSerialized] public Transform view;
+        /// <summary>When set (e.g. while aiming), the body turns to face this direction instead of the travel direction.</summary>
+        [System.NonSerialized] public Vector3? faceDirection;
+        /// <summary>Speed multiplier (aiming, carrying cargo, heavy bag). 1 = normal.</summary>
+        [System.NonSerialized] public float speedScale = 1f;
 
         public CharacterController Controller { get; private set; }
         public CharacterAnimator Anim { get; private set; }
@@ -68,7 +72,7 @@ namespace Ashline.Characters
                 right = Vector3.Cross(Vector3.up, fwd);
             }
             var wish = (fwd * input.y + right * input.x);
-            float target = Mathf.Lerp(walkSpeed, runSpeed, sprint ? 1f : 0f) * wish.magnitude;
+            float target = Mathf.Lerp(walkSpeed, runSpeed, sprint ? 1f : 0f) * wish.magnitude * speedScale;
             if (input.magnitude > 0.85f && !sprint) target = Mathf.Max(target, walkSpeed * 1.15f);
             var horiz = new Vector3(velocity.x, 0, velocity.z);
             var desired = wish.sqrMagnitude > 1e-4f ? wish.normalized * target : Vector3.zero;
@@ -94,7 +98,10 @@ namespace Ashline.Characters
             Controller.Move(velocity * dt);
 
             // Turn toward travel; quicker at low speed so starts feel responsive.
-            if (horiz.sqrMagnitude > 0.05f)
+            var faceDir = faceDirection.HasValue ? Vector3.ProjectOnPlane(faceDirection.Value, Vector3.up) : Vector3.zero;
+            if (faceDir.sqrMagnitude > 1e-4f)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(faceDir), turnSpeed * dt);
+            else if (horiz.sqrMagnitude > 0.05f)
             {
                 var face = Quaternion.LookRotation(horiz);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, face, turnSpeed * dt);
