@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02efa6e8a3c1471793f38b58532f0d9, type: 3}
+  m_Name: CityArt
+  m_EditorClassIdentifier: Assembly-CSharp::Ashline.City.CityArt
+  surfaces:
+  - id: asphalt_02
+    material: {fileID: 2100000, guid: f3d374dd1db384d9da6536e05fcd8122, type: 2}
+    size: {x: 3, y: 3}
+  - id: asphalt_04
+    material: {fileID: 2100000, guid: c9989d4f8865849e6bce77e4af52d652, type: 2}
+    size: {x: 4.04, y: 4.04}
+  - id: beige_wall_001
+    material: {fileID: 2100000, guid: d9f51698c16a74d99881d0a650afb37e, type: 2}
+    size: {x: 3, y: 3}
+  - id: brick_wall_10
+    material: {fileID: 2100000, guid: 296c59c0aa6d841d6a683a45e1b42edf, type: 2}
+    size: {x: 1.9, y: 1.9}
+  - id: brown_brick_02
+    material: {fileID: 2100000, guid: 4178216d6110d4e529b678d9c5aaa7eb, type: 2}
+    size: {x: 1, y: 1}
+  - id: brushed_concrete
+    material: {fileID: 2100000, guid: 7579dffbd629d4668b4b428a582c386c, type: 2}
+    size: {x: 2.5, y: 2.5}
+  - id: clay_roof_tiles_02
+    material: {fileID: 2100000, guid: 2798099d32d0343298c6f533613a38b6, type: 2}
+    size: {x: 2.5, y: 2.5}
+  - id: concrete_panels
+    material: {fileID: 2100000, guid: 6d8ec2a67e39046bc9b6ddf5301d9bb3, type: 2}
+    size: {x: 8, y: 8}
+  - id: concrete_pavement_02
+    material: {fileID: 2100000, guid: 47ac01ff35b69468d83e23e5c25627c5, type: 2}
+    size: {x: 1.8, y: 1.8}
+  - id: concrete_tile_facade
+    material: {fileID: 2100000, guid: 57a2a0c7d1d0d44049559179124833bb, type: 2}
+    size: {x: 2.09, y: 2.09}
+  - id: corrugated_iron_02
+    material: {fileID: 2100000, guid: 30c62aa4518254bd58794cbee46a574c, type: 2}
+    size: {x: 2.7, y: 2.7}
+  - id: damp_beach_sand
+    material: {fileID: 2100000, guid: 6175da36653b749f99995fbba2f6d6ac, type: 2}
+    size: {x: 2, y: 2}
+  - id: herringbone_pavement_02
+    material: {fileID: 2100000, guid: f23ec52b639204b748e1c7f0f9295b0e, type: 2}
+    size: {x: 2.48, y: 2.48}
+  - id: leafy_grass
+    material: {fileID: 2100000, guid: 6728a5ec8a0d34f7f879d7c9874fbce2, type: 2}
+    size: {x: 2, y: 2}
+  - id: plastered_wall_04
+    material: {fileID: 2100000, guid: 26b98d26e048544e2a4812b3ee8f4440, type: 2}
+    size: {x: 3.2, y: 3.2}
+  - id: rectangular_facade_tiles_02
+    material: {fileID: 2100000, guid: c202f25ea3cf945118993e51a7431990, type: 2}
+    size: {x: 2.105, y: 2.105}
+  - id: red_sandstone_pavement
+    material: {fileID: 2100000, guid: 6e12fe4fc75ee4265b9b549d046739bd, type: 2}
+    size: {x: 2.15, y: 2.15}
+  - id: sand_03
+    material: {fileID: 2100000, guid: 7df00e6fa252f4dd6aca6e4b42841b71, type: 2}
+    size: {x: 2, y: 2}
+  - id: seaside_rock
+    material: {fileID: 2100000, guid: 3a4e36aaa105841249f1976be8721895, type: 2}
+    size: {x: 2, y: 2}
+  - id: tarred_gravel
+    material: {fileID: 2100000, guid: 913cd1ac4f6f744e9889384586dc20d6, type: 2}
+    size: {x: 2.2, y: 2.2}
+  - id: white_sandstone_bricks
+    material: {fileID: 2100000, guid: b9e2cc9de63b44bdc926f08aea8f46d1, type: 2}
+    size: {x: 2, y: 2}
+  - id: wood_floor_deck
+    material: {fileID: 2100000, guid: 18bab97dc066245dcaf9064776fde3ce, type: 2}
+    size: {x: 1.8, y: 1.8}
+  props: []
+  glass: {fileID: 2100000, guid: 01c5675f283614e00971dfff61be86ce, type: 2}
+  shopGlass: {fileID: 2100000, guid: 6ea373e3bfb894d2caa546834887b3ab, type: 2}
+  windowFrame: {fileID: 2100000, guid: f3fb45c0ad24a45a3aff96584127cd44, type: 2}
+  roadPaint: {fileID: 2100000, guid: 29e24f0d326ae42b6928a9104fc4d7e4, type: 2}
+  roadPaintYellow: {fileID: 2100000, guid: 0631ffe636b2244cfa1b15acb9ec1732, type: 2}
+  metalDark: {fileID: 2100000, guid: 51fd9dae2396c4aca872043909f79392, type: 2}
+  lampEmissive: {fileID: 2100000, guid: 55e5d91b447774469827c49cd2371c1c, type: 2}
+  signs: {fileID: 2100000, guid: ccf085e60d82941d089f266bfe4979af, type: 2}
+  awnings:
+  - {fileID: 2100000, guid: 2c1429571033c454782a851d21f3d833, type: 2}
+  - {fileID: 2100000, guid: 76de31d13eeac4152be7bde8ceefaca8, type: 2}
+  - {fileID: 2100000, guid: 3ab8e877d6ad148e9895d9ec32fc9456, type: 2}
+  - {fileID: 2100000, guid: 40c634c1b029b427dbf3c4824a920383, type: 2}
+  - {fileID: 2100000, guid: a384cc3fc39924cbfa16761c100902cb, type: 2}
+  - {fileID: 2100000, guid: 50225c3b34b5f4d18b645a239eca577c, type: 2}
+  - {fileID: 2100000, guid: b8a9932822483431a8bca49c8bd8e266, type: 2}
+  - {fileID: 2100000, guid: 787235c4799ae439b8f8f538d7a5064b, type: 2}
+  palmTrunk: {fileID: 2100000, guid: 899cdd0e8592c4e7f9f66a9c26eed855, type: 2}
+  palmFrond: {fileID: 2100000, guid: de48f873fee314a1bbced7907c89c0d7, type: 2}
+  water: {fileID: 2100000, guid: 2af1d532d0e754917a5630b2e56b301c, type: 2}
+  pool: {fileID: 2100000, guid: a42eaaa22fe7b472f90ccdf74e5afd0d, type: 2}
+  pond: {fileID: 2100000, guid: 900459abe111d4d03bebb743621aab34, type: 2}
+  paintWhite: {fileID: 2100000, guid: d4a2a5e5c33fd44fd8efc3cf5bab9023, type: 2}
+  paintBlue: {fileID: 2100000, guid: bb7c7df63b0ac414bbe9ab3174467cd0, type: 2}
+  paintRed: {fileID: 2100000, guid: 1fae97d0e218a43b6a28a3ea681d1255, type: 2}
+  glowWhite: {fileID: 2100000, guid: 9861f20cd34864cbaba4534e572e66c0, type: 2}
