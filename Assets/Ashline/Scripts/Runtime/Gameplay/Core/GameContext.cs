@@ -18,6 +18,8 @@ namespace Ashline.Gameplay
         public static CityGenerator City;
         public static PlayerCharacter Player;
         public static PlayerStatus Status;
+        /// <summary>Set by the Inventory module on WorldReady.</summary>
+        public static IPlayerInventory Inventory;
         public static Camera Camera;
         public static TouchControls Hud;
         /// <summary>Model and clips used for every human; swap per role once more models exist.</summary>
@@ -41,7 +43,14 @@ namespace Ashline.Gameplay
         /// <summary>Something in the world was killed; byPlayer tells whether the player did it.</summary>
         public static event Action<GameObject, bool> Killed;
 
+        /// <summary>Glass (display case, shop window) was smashed at a point; may set off a building alarm.</summary>
+        public static event Action<Vector3> GlassBroken;
+        /// <summary>Player was arrested ("BUSTED") or killed ("WASTED"); bag/inventory loss is already applied.</summary>
+        public static event Action<string> PlayerBusted;
+
         public static void RaiseWorldReady() => WorldReady?.Invoke();
+        public static void RaiseGlassBroken(Vector3 at) => GlassBroken?.Invoke(at);
+        public static void RaisePlayerBusted(string reason) => PlayerBusted?.Invoke(reason);
         public static void RaiseAlarm(ShopLayout shop, Vector3 at) => AlarmRaised?.Invoke(shop, at);
         public static void RaiseWantedChanged(int level) => WantedChanged?.Invoke(level);
         public static void RaiseKilled(GameObject victim, bool byPlayer) => Killed?.Invoke(victim, byPlayer);
@@ -53,6 +62,9 @@ namespace Ashline.Gameplay
             AlarmRaised = null;
             WantedChanged = null;
             Killed = null;
+            GlassBroken = null;
+            PlayerBusted = null;
+            GameContext.Inventory = null;
         }
     }
 }
